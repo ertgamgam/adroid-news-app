@@ -1,7 +1,10 @@
 package com.cicekgamgam.news;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -56,5 +59,12 @@ public class MainActivity extends AppCompatActivity {
         }
         GetNewsAsyncTask getNewsAsyncTask = new GetNewsAsyncTask(this);
         getNewsAsyncTask.execute(++pageNumber);
+    }
+
+    public void getNewsDetails(View view) {
+
+
+
+        //startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse()));
     }
 }
