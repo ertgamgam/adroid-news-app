@@ -5,6 +5,10 @@ import lombok.Getter;
 @Getter
 public class ArticleDto {
 
+    public ArticleDto(String description) {
+        this.description = description;
+    }
+
     private SourceDto source;
     private String author;
     private String title;

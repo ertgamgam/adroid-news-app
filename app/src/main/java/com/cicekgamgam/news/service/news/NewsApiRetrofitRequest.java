@@ -9,7 +9,7 @@ public interface NewsApiRetrofitRequest {
     @GET("v2/top-headlines")
     Call<GetTopHeadlinesResponse> getTopHeadlinesNews(@Query("page") int page,
                                                       @Query("pageSize") int pageSize,
-                                                      @Query("country") String country,
+                                                      @Query("category") String category,
                                                       @Query("apiKey") String apiKey);
 
 }

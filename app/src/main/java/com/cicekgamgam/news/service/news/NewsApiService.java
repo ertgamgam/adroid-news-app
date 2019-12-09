@@ -11,7 +11,8 @@ public class NewsApiService {
     private static NewsApiService newsApiService;
     private final static String COUNTRY = "tr";
     private final static String API_KEY = "572e4629f6254f5d88d03c6a78a6b69b";
-    private final static int PAGE_SIZE = 5;
+    private final static int PAGE_SIZE = 20;
+    private final static String CATEGORY = "general";
 
     public static NewsApiService getInstance() {
 
@@ -37,14 +38,14 @@ public class NewsApiService {
     public List<ArticleDto> getTopHeadlinesNews(int page) {
 
         Call<GetTopHeadlinesResponse> call =
-                newsApiRetrofitRequest.getTopHeadlinesNews(page, PAGE_SIZE, COUNTRY, API_KEY);
+                newsApiRetrofitRequest.getTopHeadlinesNews(page, PAGE_SIZE, CATEGORY, API_KEY);
 
         GetTopHeadlinesResponse responseBody = null;
         try {
             Response<GetTopHeadlinesResponse> response = call.execute();
             responseBody = response.body();
         } catch (Exception ex) {
-            System.out.println("An exception occurred = "+ex.getMessage());
+            System.out.println("An exception occurred = " + ex.getMessage());
         }
 
         return responseBody.getArticles();
