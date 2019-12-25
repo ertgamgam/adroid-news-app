@@ -14,6 +14,8 @@ public class NewsApiService {
     private final static int PAGE_SIZE = 20;
     private final static String CATEGORY = "general";
 
+
+    //Singleton
     public static NewsApiService getInstance() {
 
         if (newsApiService == null) {
@@ -29,6 +31,7 @@ public class NewsApiService {
 
     private NewsApiRetrofitRequest newsApiRetrofitRequest;
 
+    //constructori neden private yaptik?
     private NewsApiService() {
         Retrofit retrofit = NewsApiRetrofitClient.getInstance();
         newsApiRetrofitRequest = retrofit.create(NewsApiRetrofitRequest.class);

@@ -4,18 +4,24 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cicekgamgam.news.service.news.ArticleDto;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    private FirebaseAuth.AuthStateListener mAuthStateListener;
     ProgressDialog progressDialog;
     NewsAdapter newsAdapter;
 
@@ -66,5 +72,33 @@ public class MainActivity extends AppCompatActivity {
 
 
         //startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse()));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.optionsmenu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId())
+        {
+            case R.id.logoutbtn:
+                Toast.makeText(this,"You logged out",Toast.LENGTH_SHORT).show();
+                FirebaseAuth.getInstance().signOut();
+                Intent goestoSignUp=new Intent(MainActivity.this,SignUpActivity.class);
+                startActivity(goestoSignUp);
+
+                break;
+            case R.id.weatherbtn:
+                Toast.makeText(this,"You clicked weather ",Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.currencybtn:
+                Toast.makeText(this,"You clicked currency",Toast.LENGTH_SHORT).show();
+                break;
+        }
+        return true;
     }
 }
