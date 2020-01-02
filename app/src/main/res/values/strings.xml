@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">News</string>
+    <string name="app_name">LIVING</string>
+    <string name="search_key">Search...</string>
+    <string name="news_image">news image</string>
 </resources>

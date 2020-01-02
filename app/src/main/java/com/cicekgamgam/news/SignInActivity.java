@@ -31,13 +31,9 @@ public class SignInActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_in);
 
         mFireBaseAuth = FirebaseAuth.getInstance();
-        emailId = findViewById(R.id.etmail);
-        password = findViewById(R.id.etpassword);
-        btnSignIn = findViewById(R.id.btnsignup);
-        tvSignUp = findViewById(R.id.signintext);
+
 
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
 
@@ -46,15 +42,17 @@ public class SignInActivity extends AppCompatActivity {
 
                 FirebaseUser mFireBaseUser = mFireBaseAuth.getCurrentUser();
                 if (mFireBaseUser != null) {
-                    Toast.makeText(SignInActivity.this, "You are logged in!", Toast.LENGTH_SHORT).show();
                     Intent i = new Intent(SignInActivity.this, MainActivity.class);
                     startActivity(i);
-                } else {
-                    Toast.makeText(SignInActivity.this, "Please Login!", Toast.LENGTH_SHORT).show();
                 }
-
             }
         };
+
+        setContentView(R.layout.activity_sign_in);
+        emailId = findViewById(R.id.etmail);
+        password = findViewById(R.id.etpassword);
+        btnSignIn = findViewById(R.id.btnsignup);
+        tvSignUp = findViewById(R.id.signintext);
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,15 +60,9 @@ public class SignInActivity extends AppCompatActivity {
                 String email = emailId.getText().toString();
                 String pwd = password.getText().toString();
 
-                if (email.isEmpty()) {
-                    emailId.setError("Please Enter Email");
-                    emailId.requestFocus();
-                } else if (pwd.isEmpty()) {
-                    password.setError("Please enter your password");
-                    password.requestFocus();
-                } else if (email.isEmpty() && pwd.isEmpty()) {
-                    Toast.makeText(SignInActivity.this, "Fields are empty!!", Toast.LENGTH_SHORT).show();
-                } else if (!(email.isEmpty() && pwd.isEmpty())) {
+                if (email.isEmpty() || pwd.isEmpty()) {
+                    emailId.setError("Check your email and password");
+                } else {
                     mFireBaseAuth.signInWithEmailAndPassword(email, pwd).addOnCompleteListener(SignInActivity.this, new OnCompleteListener<AuthResult>() {
                         @SneakyThrows
                         @Override
@@ -84,9 +76,6 @@ public class SignInActivity extends AppCompatActivity {
                             }
                         }
                     });
-                } else {
-                    Toast.makeText(SignInActivity.this, "Error Ocurred!", Toast.LENGTH_SHORT).show();
-
                 }
             }
         });
@@ -106,5 +95,10 @@ public class SignInActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         mFireBaseAuth.addAuthStateListener(mAuthStateListener);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(SignInActivity.this, "Please sign in", Toast.LENGTH_SHORT).show();
     }
 }

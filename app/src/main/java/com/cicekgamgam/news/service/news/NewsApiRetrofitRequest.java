@@ -6,10 +6,10 @@ import retrofit2.http.Query;
 
 public interface NewsApiRetrofitRequest {
 
-    @GET("v2/top-headlines")
+    @GET("v2/everything")
     Call<GetTopHeadlinesResponse> getTopHeadlinesNews(@Query("page") int page,
                                                       @Query("pageSize") int pageSize,
-                                                      @Query("category") String category,
+                                                      @Query("q") String searchKey,
                                                       @Query("apiKey") String apiKey);
 
 }

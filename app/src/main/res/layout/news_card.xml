@@ -15,36 +15,36 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/white"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:baselineAligned="false">
 
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            tools:ignore="UselessParent">
 
             <ImageView
-                android:id="@+id/imageali"
+                android:id="@+id/cardImage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:srcCompat="@tools:sample/avatars[4]" />
+                tools:srcCompat="@tools:sample/avatars[4]"
+                android:contentDescription="@string/news_image" />
 
             <TextView
-                android:id="@+id/newstitle"
+                android:id="@+id/newsTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="NewsTitle"
                 android:textSize="26sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/news_card_description"
+                android:id="@+id/newCardDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
                 android:layout_marginTop="9dp"
-                android:text="productAdi"
                 android:textSize="18sp"
                 android:textStyle="normal" />
 

@@ -35,6 +35,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         notifyItemRangeChanged(currentNewsCount, articles.size());
     }
 
+    void clearAll() {
+        articles.clear();
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public NewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -57,15 +62,15 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     class NewsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView titleTextView;
         TextView descriptionTextView;
-        ImageView imageImageview;
+        ImageView imageImageView;
         String url;
 
         NewsViewHolder(@NonNull View view) {
             super(view);
             view.setOnClickListener(this);
-            descriptionTextView = view.findViewById(R.id.news_card_description);
-            titleTextView = view.findViewById(R.id.newstitle);
-            imageImageview = view.findViewById(R.id.imageali);
+            descriptionTextView = view.findViewById(R.id.newCardDescription);
+            titleTextView = view.findViewById(R.id.newsTitle);
+            imageImageView = view.findViewById(R.id.cardImage);
 
         }
 
@@ -76,7 +81,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
             Picasso.get()
                     .load(article.getUrlToImage())
-                    .into(imageImageview);
+                    .into(imageImageView);
         }
 
         @Override

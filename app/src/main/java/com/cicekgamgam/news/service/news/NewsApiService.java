@@ -9,13 +9,9 @@ import retrofit2.Retrofit;
 public class NewsApiService {
 
     private static NewsApiService newsApiService;
-    private final static String COUNTRY = "tr";
     private final static String API_KEY = "572e4629f6254f5d88d03c6a78a6b69b";
     private final static int PAGE_SIZE = 20;
-    private final static String CATEGORY = "general";
 
-
-    //Singleton
     public static NewsApiService getInstance() {
 
         if (newsApiService == null) {
@@ -31,17 +27,16 @@ public class NewsApiService {
 
     private NewsApiRetrofitRequest newsApiRetrofitRequest;
 
-    //constructori neden private yaptik?
     private NewsApiService() {
         Retrofit retrofit = NewsApiRetrofitClient.getInstance();
         newsApiRetrofitRequest = retrofit.create(NewsApiRetrofitRequest.class);
     }
 
 
-    public List<ArticleDto> getTopHeadlinesNews(int page) {
+    public List<ArticleDto> getNews(int page, String searchKey) {
 
         Call<GetTopHeadlinesResponse> call =
-                newsApiRetrofitRequest.getTopHeadlinesNews(page, PAGE_SIZE, CATEGORY, API_KEY);
+                newsApiRetrofitRequest.getTopHeadlinesNews(page, PAGE_SIZE, searchKey, API_KEY);
 
         GetTopHeadlinesResponse responseBody = null;
         try {

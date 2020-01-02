@@ -5,7 +5,6 @@ import lombok.Getter;
 @Getter
 public class ArticleDto {
 
-    //?????
     public ArticleDto(String description) {
         this.description = description;
     }

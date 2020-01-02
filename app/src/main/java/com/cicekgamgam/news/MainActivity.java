@@ -2,11 +2,14 @@ package com.cicekgamgam.news;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,12 +24,12 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private FirebaseAuth.AuthStateListener mAuthStateListener;
+    private static final String DEFAULT_SEARCH_KEY = "new";
     ProgressDialog progressDialog;
     NewsAdapter newsAdapter;
+    private String searchKey = DEFAULT_SEARCH_KEY;
 
     private int pageNumber = 1;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         RecyclerView recyclerView = findViewById(R.id.newsRecyclerView);
+        EditText searchEditText = findViewById(R.id.searchEditText);
 
         newsAdapter = new NewsAdapter(this, new ArrayList<ArticleDto>());
 
@@ -56,6 +60,40 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        searchEditText.addTextChangedListener(new TextWatcher() {
+            CountDownTimer timer = null;
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(final CharSequence s, int start, int before, int count) {
+                if (timer != null) {
+                    timer.cancel();
+                }
+
+                timer = new CountDownTimer(1300, 1000) {
+                    public void onTick(long millisUntilFinished) {
+                    }
+
+                    public void onFinish() {
+                        pageNumber = 1;
+                        searchKey = TextUtils.isEmpty(s) ? DEFAULT_SEARCH_KEY : s.toString();
+                        newsAdapter.clearAll();
+                        getNews();
+                    }
+
+                }.start();
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+
         getNews();
     }
 
@@ -64,41 +102,40 @@ public class MainActivity extends AppCompatActivity {
             pageNumber = 1;
         }
         GetNewsAsyncTask getNewsAsyncTask = new GetNewsAsyncTask(this);
-        getNewsAsyncTask.execute(++pageNumber);
+        getNewsAsyncTask.execute(pageNumber++, searchKey);
     }
 
-    public void getNewsDetails(View view) {
-
-
-
-        //startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse()));
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        getMenuInflater().inflate(R.menu.optionsmenu,menu);
+        getMenuInflater().inflate(R.menu.optionsmenu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId())
-        {
+        switch (item.getItemId()) {
             case R.id.logoutbtn:
-                Toast.makeText(this,"You logged out",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "You logged out", Toast.LENGTH_SHORT).show();
                 FirebaseAuth.getInstance().signOut();
-                Intent goestoSignUp=new Intent(MainActivity.this,SignUpActivity.class);
-                startActivity(goestoSignUp);
+                Intent signInIntent = new Intent(MainActivity.this, SignInActivity.class);
+                startActivity(signInIntent);
 
                 break;
             case R.id.weatherbtn:
-                Toast.makeText(this,"You clicked weather ",Toast.LENGTH_SHORT).show();
+                Intent weatherIntent = new Intent(MainActivity.this, WeatherActivity.class);
+                startActivity(weatherIntent);
                 break;
             case R.id.currencybtn:
-                Toast.makeText(this,"You clicked currency",Toast.LENGTH_SHORT).show();
+                Intent currencyActivity = new Intent(MainActivity.this, CurrencyActivity.class);
+                startActivity(currencyActivity);
                 break;
         }
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
     }
 }

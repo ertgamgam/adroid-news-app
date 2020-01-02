@@ -10,7 +10,7 @@ import com.cicekgamgam.news.service.news.NewsApiService;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
-public class GetNewsAsyncTask extends AsyncTask<Integer, Void, List<ArticleDto>> {
+public class GetNewsAsyncTask extends AsyncTask<Object, Void, List<ArticleDto>> {
 
     private WeakReference<MainActivity> mainActivityWeakReference;
 
@@ -26,22 +26,16 @@ public class GetNewsAsyncTask extends AsyncTask<Integer, Void, List<ArticleDto>>
     }
 
     @Override
-    protected List<ArticleDto> doInBackground(Integer... page) {
+    protected List<ArticleDto> doInBackground(Object... params) {
         NewsApiService newsApiService = NewsApiService.getInstance();
-        return newsApiService.getTopHeadlinesNews(page[0]);
+        return newsApiService.getNews((Integer) params[0], (String) params[1]);
     }
 
     @Override
     protected void onPostExecute(List<ArticleDto> articles) {
         super.onPostExecute(articles);
         MainActivity mainActivity = mainActivityWeakReference.get();
-        if (articles.isEmpty()) {
-            // mainActivity.getNewsButton.setEnabled(false);
-            Context context = mainActivity.getApplicationContext();
-            CharSequence text = "Tüm haberler gösterildi!";
-            Toast toast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
-            toast.show();
-        } else {
+        if (!articles.isEmpty()) {
             NewsAdapter newsAdapter = mainActivity.newsAdapter;
             newsAdapter.addNews(articles);
         }
